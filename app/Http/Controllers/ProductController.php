@@ -23,8 +23,9 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $suppliers = Supplier::all();
+        $code = Product::generateItemCode();
 
-        return view('product.create', compact('categories', 'suppliers'));
+        return view('product.create', compact('categories', 'suppliers', 'code'));
     }
 
     public function store(Request $request)

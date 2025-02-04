@@ -38,4 +38,23 @@ class Product extends Model
     {
         return $this->hasMany(SaleDetail::class);
     }
+
+    public static function generateItemCode()
+    {
+        // Get last item code
+        $lastItem = self::where('code', 'like', 'PRD%')
+            ->orderBy('code', 'desc')
+            ->first();
+
+        // Generate new sequential number
+        if ($lastItem) {
+            $lastNumber = intval(substr($lastItem->code, 3));
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+
+        // Format new code with leading zeros
+        return 'PRD' . str_pad((string)$newNumber, 4, '0', STR_PAD_LEFT);
+    }
 }
